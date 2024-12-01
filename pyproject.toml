@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "App"
+version = "1.0.0"
+requires-python = ">= 3.12"
+dependencies = [
+    "Flask>=3.0.3", 
+    "python-dotenv>=1.0.1",
+    "pydantic>=2.9.2",
+    "mypy>=1.13.0"
+]
+
+[project.scripts]
+appcli = "app:cli"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.setuptools.package-data]
+app = ["**/static/**", "**/templates/**"]
+
+[tool.mypy]
+plugins = "pydantic.mypy"
+strict = true
+disallow_untyped_defs = true
