@@ -1,0 +1,122 @@
+{% extends 'admin/__base__.html' %}
+
+{% block title %}
+    Chart Patterns
+{% endblock %}
+
+
+{% block head %}
+{{ super() }}
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+{% endblock %}
+
+
+{% block sidebar %}
+{% from 'admin/macros.html' import generate_sidebar %}
+{{ generate_sidebar('ChartPatterns') }}
+{% endblock %}
+
+
+{% block main %}
+
+  <div class="container">
+    <div class="col-8 mx-auto mt-3">
+      <form method="POST" action="" enctype="multipart/form-data" id="dataForm">
+        {{ form.hidden_tag() }}
+        <div class="form-group mb-2">
+          {{ form.symbol.label(class="form-label mb-1") }}:
+          {{ form.symbol(class="form-select", id="symbolSelect") }}
+          {% for error in form.symbol.errors %}
+          <div class="alert alert-danger">{{ error }}</div>
+          {% endfor %}
+        </div>
+        <div class="form-group mb-2">
+          {{ form.pattern.label(class="form-label mb-1") }}:
+          {{ form.pattern(class="form-select", id="symbolSelect") }}
+          {% for error in form.pattern.errors %}
+          <div class="alert alert-danger">{{ error }}</div>
+          {% endfor %}
+        </div>
+        <div class="form-group text-start mt-1">
+          <button type="submit" class="btn btn-primary">Fetch Chart</button>
+          {% for error in form.form_errors %}
+          <div class="alert alert-danger">{{ error }}</div>
+          {% endfor %}
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  {% if chart is defined %}
+    <div class="container mx-auto mt-3">
+      <div class="col-11 text-center me-3">
+        <h3 class="ms-auto">{{ symbol }} - {{ pattern_name }}</h3>
+      </div>
+
+        {{ chart|safe }}
+    </div>
+  {% endif %}
+
+
+  {% if rows %}
+    <div id="chart" class="container-fluid" style="height: 700px;"></div>
+    <div id="volume_chart" class="container-fluid" style="height: 500px;"></div>
+  {% endif %}
+
+{% endblock %}
+
+
+{% block script %}
+{% if rows %}
+<script>
+var dates = [{{ rows['Date']|join(', ') }}]
+var close = [{{ rows['Close']|join(', ') }}]
+var high = [{{ rows['High']|join(', ') }}]
+var low = [{{ rows['Low']|join(', ') }}]
+var open = [{{ rows['Open']|join(', ') }}]
+var volume = [{{ rows['Volume']|join(', ') }}]     
+var candlestick_trace = {
+    x: dates,
+    close: close,
+    high: high,
+    low: low,
+    open: open,
+    volume: volume,
+
+    decreasing: {line: {color: '#7F7F7F'}},
+    increasing: {line: {color: '#17BECF'}},
+    line: {color: 'rgba(31,119,180,1)'},
+    type: 'candlestick',
+    xaxis: 'x',
+    yaxis: 'y'
+};
+
+var volume_trace = {
+    x: dates,
+    y: volume,
+    type: 'bar',
+    name: 'Volume',
+    marker: { color: 'lightgray' },
+    xaxis: 'x',
+    yaxis: 'y2',
+}
+
+var data = [candlestick_trace];
+
+var layout = {
+  dragmode: 'zoom',
+  showlegend: false,
+  xaxis: {
+    rangeslider: {
+		 visible: false
+	 }
+  }
+};
+
+Plotly.newPlot('chart', data, layout);
+Plotly.newPlot('volume_chart', [volume_trace], {})
+</script>
+{% endif %}
+{{ super() }}
+{% endblock %}

@@ -1,0 +1,38 @@
+{% macro generate_sidebar(active) %}
+    {% set valid_links = ['AllTimeHigh', 'ChartPatterns'] %}
+    {% if active not in valid_links %}
+        {{ raise_error('Invalid link. Valid links are: ' ~ valid_links) }}
+    {% endif %}
+
+    {% if active == valid_links[0] %}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('Admin.home') }}">
+            <i class="ri-bar-chart-2-fill fs-4"></i>
+            <span>All Time High</span>
+            </a>
+        </li>    
+    {% else %}
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ url_for('Admin.home') }}">
+            <i class="ri-bar-chart-2-fill fs-4"></i>
+            <span>All Time High</span>
+            </a>
+        </li>    
+    {% endif %}
+
+    {% if active == valid_links[1] %}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('Admin.chart_patterns') }}">
+                <i class="ri-line-chart-fill fs-4"></i>
+                <span>Chart Patterns</span>
+            </a>
+        </li>
+    {% else %}
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ url_for('Admin.chart_patterns') }}">
+                <i class="ri-line-chart-fill fs-4"></i>
+                <span>Chart Patterns</span>
+            </a>
+        </li>
+    {% endif %}
+{% endmacro %}

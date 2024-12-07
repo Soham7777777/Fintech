@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% block head %}    
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>{% block title required %}{% endblock %}</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('Admin.static', filename='assets/img/favicons/favicon-16x16.png') }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('Admin.static', filename='assets/img/favicons/favicon-32x32.png') }}">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='assets/img/favicons/favicon.ico') }}">
+  <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('Admin.static', filename='assets/img/favicons/android-chrome-192x192.png') }}">
+  <link rel="icon" type="image/png" sizes="512x512" href="{{ url_for('Admin.static', filename='assets/img/favicons/android-chrome-512x512.png') }}">
+
+  <link rel="apple-touch-icon" href="{{ url_for('Admin.static', filename='assets/img/touch-icons/apple-touch-icon-iphone-60x60.png') }}">
+  <link rel="apple-touch-icon" sizes="60x60" href="{{ url_for('Admin.static', filename='apple-touch-icon-ipad-76x76.png') }}">
+  <link rel="apple-touch-icon" sizes="114x114" href="{{ url_for('Admin.static', filename='apple-touch-icon-iphone-retina-120x120.png') }}">
+  <link rel="apple-touch-icon" sizes="144x144" href="{{ url_for('Admin.static', filename='apple-touch-icon-ipad-retina-152x152.png') }}">
+
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <link href="{{ url_for('Admin.static', filename='assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('Admin.static', filename='assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+  <link href="{{ url_for('Admin.static', filename='assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('Admin.static', filename='assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
+
+
+  <link href="{{ url_for('Admin.static', filename='assets/css/style.css') }}" rel="stylesheet">
+  {% endblock %}
+
+</head>
+
+<body class="bg-white">
+
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between me-auto">
+        <a href="{{ url_for('Admin.home') }}" class="logo d-none d-xl-flex align-items-center">
+            <span class="d-none d-lg-block fs-4">22061201001</span>
+        </a>
+        <i class="bi bi-list toggle-sidebar-btn d-xl-none p-0"></i>
+    </div>
+
+    <a href="{{ url_for('Admin.home') }}" class="logo d-xl-none d-flex align-items-center mx-auto">
+        <span class="d-xl-none fs-4">22061201001</span>
+    </a>
+
+    <nav class="header-nav ms-auto">
+        <ul class="d-flex align-items-center">
+            <li class="d-none d-md-block text-truncate fw-bold pe-2" style="color: #d61b3c; max-width: 480px">
+              <span id="greeting"></span> Naimish Sir
+            </li>
+            <li class="nav-item pe-3">
+                <a class="nav-link nav-profile d-flex align-items-center pe-0" href="{{ url_for('Admin.home') }}">
+                    <img src="{{ url_for('static', filename='NaimishSir.jpg') }}" alt="Profile" class="rounded-circle">
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+
+  </header>
+
+
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      {% block sidebar required %}
+        
+      {% endblock %}
+      
+    </ul>
+
+  </aside>
+
+
+  <main id="main" class="main">
+
+    <section class="section dashboard">
+      <div class="container m-0">
+        {% with messages = get_flashed_messages(with_categories=true)  %}  
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                  {{ message | safe }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+      </div>
+      {% block main required %}
+      {% endblock %}
+    </section>
+
+  </main>
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  {% block script %}
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="{{ url_for('Admin.static', filename='assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('Admin.static', filename='assets/js/main.js') }}"></script>
+  {% endblock %}
+</body>
+
+</html>

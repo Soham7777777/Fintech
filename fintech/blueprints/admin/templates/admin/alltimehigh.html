@@ -1,0 +1,72 @@
+{% extends 'admin/__base__.html' %}
+
+{% block title %}
+All Time High
+{% endblock %}
+
+{% block sidebar %}
+{% from 'admin/macros.html' import generate_sidebar %}
+{{ generate_sidebar('AllTimeHigh') }}
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="col-8 mx-auto mt-3">
+      <form method="POST" action="" enctype="multipart/form-data" id="dataForm">
+        {{ form.hidden_tag() }}
+        <div class="form-group mb-2 d-flex align-items-center">
+          {{ form.date(class="form-control me-2") }}
+          <button type="submit" class="btn btn-primary">Show</button>
+        </div>
+        {% for error in form.date.errors %}
+        <div class="alert alert-danger">{{ error }}</div>
+        {% endfor %}
+        <small>An all-time high for a given date refers to the date when a symbol achieved a breakthrough in its high value within the OHLCV matrix.</small>
+        {% for error in form.form_errors %}
+        <div class="alert alert-danger">{{ error }}</div>
+        {% endfor %}
+
+      </form>
+    </div>
+  </div>
+
+{% if data %}
+<hr>
+<div class="container mt-5">
+
+
+    <div class="col-12 mx-auto table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Stock Name</th>
+                    <th>Symbol</th>
+                    <th>Open</th>
+                    <th>High</th>
+                    <th>Low</th>
+                    <th>Close</th>
+                    <th>Previous Close</th>
+                    <th>Volume</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in data %}
+                <tr>
+                    <td>{{ result[1] }}</td>
+                    <td>{{ result[0] }}</td>
+                    <td>{{ result[4] }}</td>
+                    <td>{{ result[5] }}</td>
+                    <td>{{ result[6] }}</td>
+                    <td>{{ result[7] }}</td>
+                    <td>{{ result[8] }}</td>
+                    <td>{{ result[9] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+{% endif %}
+{% endblock %}

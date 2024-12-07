@@ -1,18 +1,43 @@
-## Flaskinit : Startup template to create distributable flask webapp
+# Webserver for stock market analysis made with Flask:
+
+- All Time High: An all-time high for a given date refers to the date when a symbol achieved a breakthrough in its high value within the OHLCV matrix.
+
+- Chart Patterns: Head-&-Shoulders (HS), Inverse HS, Double Top and Double Bottom 
+
 ---
 
-### Features:
-- Custom Unix compliant CLI script, run `appcli` after installing the project, see `appcli --help` page.
-- Fully installable and distributable to a package index like PyPi, so no need to do `git clone ...` the webapp just do `pip install ...`.
-- Constrained with all best practices e.g. configuration as `.toml` files.
+```bash
+# Create a virtual environment
+python -m venv venv
 
-### How to use this template:
-- Clone this repository, insatll requirements. Write the flask code, edit `pyproject.toml` to give more details about project and edit other information that suits your needs. Install in editable mode `pip install -e .` to test your cli.
-- When its ready to deploy, build the package using `python3 -m build`. Upload the server app to public repository store like PyPi or to your private server, see `packaging.python.org` on how to implement your private package repository store.
-- After uploading, install your app just like any other python package: `pip install <package-name>` or provide index-url if you are using private server: `pip install -i <url-of-private-repo-store> <package-name>`.
-- After install run the cli command `appcli --help` or other command if you've customized it like `ecomserver --help`.
-- It'll ask you to provide toml file as configuration at instance directory, just run the command to see the path.
-- After providing configuration, you can optionally provide environment variables with a `.flaskenv` placed at CWD(copy from here). this will help to set the profile(e.g. development, deployment or testing) and provide respective configuration, also it can set host and port and other enviroment variable that your app needs.
-- Finally `appcli run` to see running your app in development server provided by flask (not for deployment).
-- In order to deploy the app import it in a file like `wsgi.py` and write `from app import make_app; app = make_app()`. Then packages like gunicorn can take this app variable and run in prod server.
-- That's it no docker, no github just pure python!
+# Activate the virtual environment
+# On Windows:
+venv\Scripts\activate
+# On macOS/Linux:
+source venv/bin/activate
+```
+
+### Install and Run
+
+1. Install the package:
+   ```bash
+   pip install fintech-webserver
+   ```
+
+3. Start the server:
+   ```bash
+   fintech run
+   ```
+
+---
+
+
+Use `fintech --help` to read the man page of `fintech` command.
+
+Optionally, create a file named `.flaskenv` in current working directory to specify common options as below:
+```
+PROFILE=Development
+FLASK_RUN_DEBUG=True
+FLASK_RUN_PORT=8090
+FLASK_RUN_HOST=0.0.0.0
+```

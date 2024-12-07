@@ -179,3 +179,8 @@ dist/
 build/
 *.egg-info/
 
+temp.*
+temp/
+temp_*
+
+notes.txt
